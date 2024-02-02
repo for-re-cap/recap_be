@@ -1,10 +1,13 @@
 package co.project.recap.service;
 
+import co.project.recap.model.ClientResponseDTO;
 import co.project.recap.model.User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public interface RecapService {
 
-    void saveUser(User user) throws Exception;
+    ClientResponseDTO saveUser(Map<String, Object> param) throws Exception;
 }

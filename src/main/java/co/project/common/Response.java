@@ -1,30 +1,34 @@
 package co.project.common;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
-@Setter
-@Getter
+/**
+ * API 처리 성공시 사용할 Response 객체
+ * @param <T>
+ */
+@Data
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Response<T>{
+@NoArgsConstructor
+public class Response<T> {
 
-    // 클라이언트에 필요한 응답 데이터
-    // 실제 리턴될 데이터 Single Object
-    // 실제 리턴될 데이터 Array Object
+    public Response(T data){
+        this.data = data;
+    }
+
+    /**
+     * 클라이언트에서 필요한 응답 데이터
+     * API에 맞게 필요한 객체를 생성하여 넣는다.
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    // API 호출 고유값
+    /**
+     * API 호출 고유값
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String traceId;
-
-    // 에러 관련 객체
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ResponseError error;
-
 }

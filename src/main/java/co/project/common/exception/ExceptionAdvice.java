@@ -1,35 +1,70 @@
 package co.project.common.exception;
 
-import co.project.common.Response;
-import co.project.common.ResponseError;
-import co.project.common.code.CommonErrorCode;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import co.project.common.code.ResponseCode;
+import co.project.recap.model.ResponseDTO;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestControllerAdvice(annotations = RestController.class)
-public class ExceptionAdvice extends Throwable {
+public class ExceptionAdvice extends Throwable{
 
     /**
-     * 데이터 유효성 체크
+     * 기본 오류 (서버측)
      * @param ex
      * @return
      */
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public Response validException(MethodArgumentNotValidException ex) {
+    @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultServerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseDTO DefaultServerException(Exception ex){
+        return new ResponseDTO(ResponseCode.RESULT_ERR, HttpStatus.INTERNAL_SERVER_ERROR.value());
 
-        ResponseError error = ResponseError.builder()
-                .code(CommonErrorCode.COMMON_ERR_PARAM.getValue())
-                .detail(ex.getFieldError().getDefaultMessage())
-                .message("필수값을 입력하세요")
-                .build();
+    }
+    /**
+     * 기본 오류 (클라이언트측)
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultClientException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseDTO DefaultClientException(Exception ex){
+        ex.printStackTrace();
+        return new ResponseDTO(ResponseCode.RESULT_ERR, HttpStatus.BAD_REQUEST.value());
 
-        return Response.builder()
-                .error(error)
-                .build();
     }
 
+    /**
+     * 기본 파라미터 오류(certikey, devicekey)
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultParameterException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseDTO DefaultParameterException(Exception ex){
+        return new ResponseDTO(ResponseCode.COMMON_ERR_PARAM, HttpStatus.UNAUTHORIZED.value());
+    }
+
+    /**
+     * 중복 로그인 오류
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = co.project.common.exception.CommonException.DuplicateLoginException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseDTO DuplicateLoginException(Exception ex){
+        return new ResponseDTO(ResponseCode.COMMON_ERR_LOGIN, HttpStatus.UNAUTHORIZED.value());
+    }
+
+
+    /**
+     * INTERNAL_SERVER_ERROR
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseDTO exceptionHandler(Exception ex){
+        ex.printStackTrace();
+        return new ResponseDTO(
+                ResponseCode.RESULT_ERR, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }
