@@ -1,26 +1,17 @@
 package co.project.recap.service.impl;
 
 import co.project.common.code.ResponseCode;
-import co.project.common.exception.CommonException;
-import co.project.recap.model.ClientResponseDTO;
-import co.project.recap.model.PlusPurchaseCheckDTO;
-import co.project.recap.model.PlusPurchaseCheckResponseDTO;
-import co.project.recap.model.User;
+import co.project.recap.model.CategoryResponseDTO;
 import co.project.recap.repository.RecapDao;
 import co.project.recap.service.RecapService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -31,10 +22,47 @@ public class RecapServiceImpl implements RecapService {
     private RecapDao recapMapper;
 
     private static final Logger logger = LoggerFactory.getLogger("bubbleStore");
+
+
+
     /**
      * user API
      */
     @Override
+    public CategoryResponseDTO getLibarayCategory() throws Exception {
+
+        CategoryResponseDTO result = new CategoryResponseDTO();
+        JSONObject category = new JSONObject();
+        try {
+
+            List<HashMap<String, Object>> priorCodeList = recapMapper.getPriorCode("CATE");
+
+            for(HashMap<String, Object> priorCode : priorCodeList){
+
+                List<HashMap<String, Object>> categoryList = recapMapper.getCommonCode(priorCode.get("code").toString());
+                category.put((String) priorCode.get("code_name"),categoryList);
+            }
+
+
+            logger.info("###### category : {}", category);
+
+            result.setStatus(true);
+            result.setStatusCode(ResponseCode.RESULT_SUCCESS);
+            result.setData(category);
+            logger.info("###### result : {}", result.toString());
+
+        } catch (Exception e) {
+            logger.error("RECAP LIBARAY CATEGORY EXCEPTION : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * user API
+     */
+/*    @Override
     public ClientResponseDTO saveUser(Map<String, Object> data) throws Exception {
 
         ClientResponseDTO result = new ClientResponseDTO();
@@ -48,7 +76,7 @@ public class RecapServiceImpl implements RecapService {
 
         int osType = (int) data.get("osType");
         String locale = data.get("locale").toString();
-        String language = data.get("language").toString();
+        String language = data.get("language").toString();*/
 
         /*// OS별 현지화 구분
         HashMap<String, String> localizationData = CommonUtil.setLocalization(osType, locale, language);
@@ -69,6 +97,7 @@ public class RecapServiceImpl implements RecapService {
             return result;
         }
 */
+/*
 
         try {
             //String name = recapMapper.getUser();
@@ -79,6 +108,7 @@ public class RecapServiceImpl implements RecapService {
             throw new CommonException.DefaultParameterException("오류가 발생했습니다.[1]");
         }
     }
+*/
 
     /*public ClientResponseDTO confirmOrder(Map<String, Object> data) throws Exception {
 

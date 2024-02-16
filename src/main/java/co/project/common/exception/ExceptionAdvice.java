@@ -1,7 +1,7 @@
 package co.project.common.exception;
 
 import co.project.common.code.ResponseCode;
-import co.project.recap.model.ResponseDTO;
+import co.project.recap.model.CommonResponseDTO;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +15,8 @@ public class ExceptionAdvice extends Throwable{
      */
     @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultServerException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseDTO DefaultServerException(Exception ex){
-        return new ResponseDTO(ResponseCode.RESULT_ERR, HttpStatus.INTERNAL_SERVER_ERROR.value());
+    public CommonResponseDTO DefaultServerException(Exception ex){
+        return new CommonResponseDTO(false,ResponseCode.RESULT_ERR );// HttpStatus.INTERNAL_SERVER_ERROR.value()
 
     }
     /**
@@ -26,9 +26,9 @@ public class ExceptionAdvice extends Throwable{
      */
     @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultClientException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseDTO DefaultClientException(Exception ex){
+    public CommonResponseDTO DefaultClientException(Exception ex){
         ex.printStackTrace();
-        return new ResponseDTO(ResponseCode.RESULT_ERR, HttpStatus.BAD_REQUEST.value());
+        return new CommonResponseDTO(false,ResponseCode.RESULT_ERR); // HttpStatus.BAD_REQUEST.value()
 
     }
 
@@ -39,8 +39,8 @@ public class ExceptionAdvice extends Throwable{
      */
     @ExceptionHandler(value = co.project.common.exception.CommonException.DefaultParameterException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseDTO DefaultParameterException(Exception ex){
-        return new ResponseDTO(ResponseCode.COMMON_ERR_PARAM, HttpStatus.UNAUTHORIZED.value());
+    public CommonResponseDTO DefaultParameterException(Exception ex){
+        return new CommonResponseDTO(false,ResponseCode.COMMON_ERR_PARAM); // HttpStatus.UNAUTHORIZED.value()
     }
 
     /**
@@ -50,8 +50,8 @@ public class ExceptionAdvice extends Throwable{
      */
     @ExceptionHandler(value = co.project.common.exception.CommonException.DuplicateLoginException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseDTO DuplicateLoginException(Exception ex){
-        return new ResponseDTO(ResponseCode.COMMON_ERR_LOGIN, HttpStatus.UNAUTHORIZED.value());
+    public CommonResponseDTO DuplicateLoginException(Exception ex){
+        return new CommonResponseDTO(false,ResponseCode.COMMON_ERR_LOGIN); // HttpStatus.UNAUTHORIZED.value()
     }
 
 
@@ -62,9 +62,8 @@ public class ExceptionAdvice extends Throwable{
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseDTO exceptionHandler(Exception ex){
+    public CommonResponseDTO exceptionHandler(Exception ex){
         ex.printStackTrace();
-        return new ResponseDTO(
-                ResponseCode.RESULT_ERR, HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new CommonResponseDTO(false, ResponseCode.RESULT_ERR); // HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

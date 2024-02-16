@@ -50,11 +50,6 @@
         <logger name="jdbc.resultset" level="OFF"/>
         <logger name="jdbc.resultsettable" level="INFO"/>
         <logger name="jdbc.connection" level="OFF"/>
-
-        <logger name="api" additivity="false" level="info">
-            <appender-ref ref="LOG_INFO" />
-            <appender-ref ref="LOG_ERROR" />
-        </logger>
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="LOG_INFO" />
@@ -62,21 +57,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="qa">
-        <logger name="api" additivity="false" level="info">
-            <appender-ref ref="LOG_INFO" />
-            <appender-ref ref="LOG_ERROR" />
-        </logger>
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-        </root>
-    </springProfile>
-
-    <springProfile name="prod">
-        <logger name="api" additivity="false" level="info">
-            <appender-ref ref="LOG_INFO" />
-            <appender-ref ref="LOG_ERROR" />
-        </logger>
+    <springProfile name="live">
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>

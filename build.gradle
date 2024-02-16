@@ -61,11 +61,8 @@ test {
 }
 
 
-ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources-${profile}"
-        }
-    }
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
 }

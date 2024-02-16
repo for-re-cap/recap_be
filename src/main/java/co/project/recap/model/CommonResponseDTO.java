@@ -8,17 +8,17 @@ import lombok.Setter;
 
 /**
  * @author :
- * @package : com.ba.subscribe.api.vo.china
- * @name : PlusCommonResponseDTO.java
- * @date : 2023-11-24 15:21
+ * @package : co.project.recap.model
+ * @name : CommonResponseDTO.java
+ * @date :
  **/
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlusCommonResponseDTO {
+public class CommonResponseDTO {
 
     private boolean status = false;
 
-    private int statusCode = ResponseCode.PLUS_ETC_ERROR;
+    private int statusCode = ResponseCode.RESULT_ERR;
 }
