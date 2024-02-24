@@ -29,7 +29,7 @@ public class RecapServiceImpl implements RecapService {
      * user API
      */
     @Override
-    public CategoryResponseDTO getLibarayCategory() throws Exception {
+    public CategoryResponseDTO getLibraryCategory() throws Exception {
 
         CategoryResponseDTO result = new CategoryResponseDTO();
         List<HashMap<String, Object>> resultList = new ArrayList<>();

@@ -9,5 +9,5 @@ import java.util.Map;
 public interface RecapService {
 
     //ClientResponseDTO saveUser(Map<String, Object> param) throws Exception;
-    CategoryResponseDTO getLibarayCategory() throws Exception;
+    CategoryResponseDTO getLibraryCategory() throws Exception;
 }
