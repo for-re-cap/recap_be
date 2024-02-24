@@ -10,12 +10,12 @@
     </select>
 
     <select id="getPriorCode" resultType="hashmap" parameterType="String">
-        SELECT TCC.code, TCC.code_name
+        SELECT TCC.code, TCC.code_name AS name
         FROM recap.TBL_COMMON_CODE TCC
                  JOIN recap.TBL_MASTER_CODE TMC ON TCC.prior_code = TMC.common_code AND TMC.common_code = #{commonCode}
     </select>
     <select id="getCommonCode" resultType="hashmap" parameterType="String">
-        SELECT code, code_name
+        SELECT code, code_name AS name
           FROM recap.TBL_COMMON_CODE
          WHERE (prior_code = #{commonCode} OR dsc_code = #{commonCode})
            AND use_yn = 'Y'

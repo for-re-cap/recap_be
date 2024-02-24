@@ -22,7 +22,7 @@ public class RecapController {
     /**
      * 카테고리
      **/
-    @GetMapping(value = "/libaray-category")
+    @GetMapping(value = "libaray-category")
     public CategoryResponseDTO getLibarayCategory() throws Exception {
         logger.info("getLibarayCategory START>>>>>>>>>>>>>>>>> \n");
         return recapService.getLibarayCategory();

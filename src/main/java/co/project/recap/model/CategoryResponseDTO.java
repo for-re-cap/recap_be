@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author :
@@ -18,6 +21,6 @@ import org.json.JSONObject;
 @NoArgsConstructor
 public class CategoryResponseDTO extends CommonResponseDTO {
 
-    private JSONObject data = new JSONObject();
-    //private ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    private List<HashMap<String, Object>> data = new ArrayList<>();
+
 }

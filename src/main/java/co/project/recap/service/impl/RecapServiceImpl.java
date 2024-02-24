@@ -32,7 +32,8 @@ public class RecapServiceImpl implements RecapService {
     public CategoryResponseDTO getLibarayCategory() throws Exception {
 
         CategoryResponseDTO result = new CategoryResponseDTO();
-        JSONObject category = new JSONObject();
+        List<HashMap<String, Object>> resultList = new ArrayList<>();
+
         try {
 
             List<HashMap<String, Object>> priorCodeList = recapMapper.getPriorCode("CATE");
@@ -40,16 +41,19 @@ public class RecapServiceImpl implements RecapService {
             for(HashMap<String, Object> priorCode : priorCodeList){
 
                 List<HashMap<String, Object>> categoryList = recapMapper.getCommonCode(priorCode.get("code").toString());
-                category.put((String) priorCode.get("code_name"),categoryList);
+
+                HashMap<String, Object> resultMap = new HashMap<>();
+                resultMap.put("code",priorCode.get("code"));
+                resultMap.put("name",priorCode.get("name"));
+                resultMap.put("data",categoryList);
+
+                resultList.add(resultMap);
             }
 
-
-            logger.info("###### category : {}", category);
-
+            logger.info("###### result : {}", resultList);
             result.setStatus(true);
             result.setStatusCode(ResponseCode.RESULT_SUCCESS);
-            result.setData(category);
-            logger.info("###### result : {}", result.toString());
+            result.setData(resultList);
 
         } catch (Exception e) {
             logger.error("RECAP LIBARAY CATEGORY EXCEPTION : " + e.getMessage());
